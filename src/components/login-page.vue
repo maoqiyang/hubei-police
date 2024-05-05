@@ -8,10 +8,10 @@
 
     <h1>湖北警官学院</h1>
     <h1>学员综合考核及评价体系</h1>
-    <form @submit.prevent="login" class="login-form">
+    <form @submit.prevent="handleLogin" class="login-form">
       <h2>系统登录</h2>
-      <input type="password" v-model="password1" placeholder="Password 1" required>
-      <input type="password" v-model="password2" placeholder="Password 2" required>
+      <input type="password" v-model="form.username" placeholder="Password 1" required>
+      <input type="password" v-model="form.password" placeholder="Password 2" required>
       <!-- <input type="password" v-model="password3" placeholder="Password 3" required> -->
       <button type="submit">Login</button>
 
@@ -23,37 +23,12 @@
 <script setup>
 /* eslint-disable */
 import { ref } from 'vue'
-import { Edit } from '@element-plus/icons-vue'
 import { login } from '@/api/login'
 
 const form = ref({
-  password1: '123',
-  password2: "123",
+  username: 'supermao',
+  password: '123',
   password3: "123",
-})
-
-const rules = ref({
-  password1: [
-    {
-      required: true,
-      message: 'Please input Activity pass',
-      trigger: 'blur'
-    }
-  ],
-  password2: [
-    {
-      required: true,
-      message: 'Please input Activity pass',
-      trigger: 'blur'
-    }
-  ],
-  password3: [
-    {
-      required: true,
-      message: 'Please input Activity pass',
-      trigger: 'blur'
-    }
-  ]
 })
 
 const formRef = ref(null)
