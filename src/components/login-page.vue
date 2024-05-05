@@ -12,7 +12,7 @@
       <h2>系统登录</h2>
       <input type="password" v-model="password1" placeholder="Password 1" required>
       <input type="password" v-model="password2" placeholder="Password 2" required>
-      <input type="password" v-model="password3" placeholder="Password 3" required>
+      <!-- <input type="password" v-model="password3" placeholder="Password 3" required> -->
       <button type="submit">Login</button>
 
     </form>
@@ -20,26 +20,54 @@
 
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      showPassword: false,
-      rememberMe: false,
-      password1: '',
-      password2: '',
-      password3: ''
-    };
-  },
-  methods: {
-    login() {
-      if (this.password1 === '111' && this.password2 === '123' && this.password3 === '123') {
-        this.$router.push('/ok');
-      } else {
-        alert('Incorrect passwords');
-      }
+<script setup>
+/* eslint-disable */
+import { ref } from 'vue'
+import { Edit } from '@element-plus/icons-vue'
+import { login } from '@/api/login'
+
+const form = ref({
+  password1: '123',
+  password2: "123",
+  password3: "123",
+})
+
+const rules = ref({
+  password1: [
+    {
+      required: true,
+      message: 'Please input Activity pass',
+      trigger: 'blur'
     }
-  }
+  ],
+  password2: [
+    {
+      required: true,
+      message: 'Please input Activity pass',
+      trigger: 'blur'
+    }
+  ],
+  password3: [
+    {
+      required: true,
+      message: 'Please input Activity pass',
+      trigger: 'blur'
+    }
+  ]
+})
+
+const formRef = ref(null)
+const handleLogin = () => {
+  formRef.value.validate(async (valid) => {
+    if (valid) {
+      // alert('submit!')
+      const res = await login(form.value)
+      console.log(res)
+    } else {
+      console.log('error submit!!')
+      return false
+    }
+  })
 }
 </script>
 
