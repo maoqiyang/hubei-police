@@ -29,6 +29,10 @@
   /* 添加圆角 */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   /* 可选：添加阴影增加立体感 */
+  
+}
+.center-text {
+  text-align: center;
 }
 
 input[type="password"] {

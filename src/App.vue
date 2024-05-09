@@ -12,10 +12,17 @@ export default {
 
 <style>
 #app {
-  text-align: center;
+  /* text-align: center; */
+  font-family: Avenir, Helvetica, Arial, sans-serif; 
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; 
+  height: 100%;
 }
 </style>
 
+<script>
+
+</script>
 
 <!-- <div id="app">：这是整个 Vue 应用的根元素。通常，在 main.js 中我们指定 Vue 实例挂载到这个元素上。
   <router-view></router-view>：这是一个 Vue Router 的组件，用于显示当前路由对应的组件。简而言之，当你访问不同的路由地址时，

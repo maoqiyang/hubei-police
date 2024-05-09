@@ -1,20 +1,31 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/components/login-page.vue'
 import OK from '@/components/ok-page.vue'
+import adminPage from '@/components/admin-page.vue'
+import NotFound from '@/components/notfound-page.vue'
 
-const routes = [
-  {
-    path: '/',
-    name: 'Login',
-    component: Login
-  },
-  {
+let routes = [{
+  path: '/ok',
+  component: adminPage,
+  children: [{
     path: '/ok',
-    name: 'OK',
-    component: OK
-  }
-]
+    component: OK,
+    meta: {
+      title: '学生管理'
+    }
+  }, ]
 
+}, {
+  path: '/',
+  component: Login,
+  meta: {
+    title: '登录页'
+  }
+}, {
+  path: '/:pathMatch(.*)*',
+  name: 'NotFound',
+  component: NotFound
+}];
 const router = createRouter({
   history: createWebHistory(),
   routes
