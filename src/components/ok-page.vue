@@ -53,10 +53,10 @@
     <el-table-column prop="email" label="邮箱" width="220"> </el-table-column>
     <el-table-column prop="address" label="地址"> </el-table-column>
     <el-table-column label="操作" width="180">
-      <el-button type="primary" icon="el-icon-edit" circle></el-button>
-      <el-button type="success" icon="el-icon-check" circle></el-button>
+      <el-button type="primary" icon="Edit" circle></el-button>
+      <el-button type="success" icon="Check" circle></el-button>
 
-      <el-button type="danger" icon="el-icon-delete" circle></el-button>
+      <el-button type="danger" icon="Delete" circle></el-button>
     </el-table-column>
   </el-table>
 
@@ -153,6 +153,11 @@ function queryStudents() {
         console.log(err);
         ElMessage.error("获取后端查询结果出现异常！");
     });
+}
+// 清空输入并获取所有学生信息的函数
+function getAllStudents() {
+    inputStr.value = ""; // 清空搜索输入
+    getStudents(); // 调用获取所有学生的函数
 }
 
 // 修改每页显示的条目数

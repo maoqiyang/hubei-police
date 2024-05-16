@@ -19,6 +19,7 @@ app.mount('#app')
 // 这行代码告诉 Vue 应用在哪个 DOM 元素上进行挂载（即开始运行）。这里 '#app' 是一个选择器，指向 HTML 文件中的一个元素，通常是一个 <div> 标签，如 <div id="app"></div>。
 // 挂载完成后，Vue 会接管这个元素，并控制这个元素内的所有内容。这意味着 Vue 会将 App.vue 组件渲染到具有 id="app" 的 HTML 元素中。
 
+//防抖
 const debounce = (fn, delay) => {
     let timer = null;
     return function () {
