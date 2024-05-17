@@ -28,4 +28,3 @@ export default {
   <router-view></router-view>：这是一个 Vue Router 的组件，用于显示当前路由对应的组件。简而言之，当你访问不同的路由地址时，
   <router-view> 会根据当前的路由动态渲染相应的组件。比如，如果你访问登录页面，就会在这个位置渲染登录组件。 -->
 
-    

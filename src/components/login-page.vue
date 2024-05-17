@@ -25,12 +25,12 @@
  /* eslint-disable */
 import { ref } from 'vue'
 import { login } from '@/api/login'
-import { useRouter } from 'vue-router'  // 修改此处，使用useRouter
-import { ElMessage } from 'element-plus'
+// import { useRouter } from 'vue-router'  // 修改此处，使用useRouter
+// import { ElMessage } from 'element-plus'
 import { useStore } from 'vuex'
 
 const store = useStore();
-const router = useRouter(); // 正确获取router实例
+// const router = useRouter(); // 正确获取router实例
 const form = ref({
   password1: '123',
   password2: '456',

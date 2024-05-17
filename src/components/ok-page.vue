@@ -19,7 +19,7 @@
           <el-button type="primary" :icon="Share" @click="getAllStudents()"
             >全部</el-button
           >
-          <el-button type="primary" :icon="CirclePlus">添加</el-button>
+          <el-button type="primary" :icon="CirclePlus" >添加</el-button>
         </el-button-group>
       </el-col>
 
@@ -34,24 +34,27 @@
     </el-row>
   </el-form>
 
+
+  
   <!-- 表格 -->
   <el-table
     :data="pageStudents"
     style="width: 100%"
     border
     :cell-style="{ textAlign: 'center' }"
-    :header-cell-style="{ 'text-align': 'center' }"
-  >
+    :header-cell-style="{ 'text-align': 'center' }">
+
     <el-table-column type="selection" width="55" />
-    <el-table-column type="index" label="序号" width="60"> </el-table-column>
-    <el-table-column prop="sno" label="学号" width="80"> </el-table-column>
+    <el-table-column prop="id" label="ID" width="115"> </el-table-column>
     <el-table-column prop="name" label="姓名" width="80"> </el-table-column>
-    <el-table-column prop="gender" label="性别" width="60"> </el-table-column>
-    <el-table-column prop="birthday" label="出生日期" width="100">
-    </el-table-column>
-    <el-table-column prop="mobile" label="电话" width="120"> </el-table-column>
-    <el-table-column prop="email" label="邮箱" width="220"> </el-table-column>
-    <el-table-column prop="address" label="地址"> </el-table-column>
+    <el-table-column prop="gender" label="性别" width="40"> </el-table-column>
+    <el-table-column prop="area" label="地区" width="100"></el-table-column>
+    <el-table-column prop="ethnicity" label="民族" width="40"></el-table-column>
+    <el-table-column prop="political_affiliation" label="政治面貌" width="90"></el-table-column>
+    <el-table-column prop="department" label="部门" width="140"> </el-table-column>
+    <el-table-column prop="address" label="地址" width="160"> </el-table-column>
+    <el-table-column prop="phone_number" label="电话号码" width="120"> </el-table-column>
+    
     <el-table-column label="操作" width="180">
       <el-button type="primary" icon="Edit" circle></el-button>
       <el-button type="success" icon="Check" circle></el-button>
@@ -80,13 +83,18 @@
       </el-pagination>
     </el-col>
   </el-row>
+ 
+ <test></test>
 </template>
 
+
 <script setup>
-import { ref, onMounted } from 'vue';
+/* eslint-disable */
+import { ref, onMounted, reactive } from 'vue';
 import axios from 'axios';
-import { ElMessage, ElButton, ElTable, ElForm, ElInput, ElRow, ElCol, ElPagination, ElUpload, ElButtonGroup } from 'element-plus';
+import { ElMessage, ElButton, ElTable, ElForm, ElInput, ElRow, ElCol, ElPagination, ElUpload, ElButtonGroup, ElMessageBox } from 'element-plus';
 import { Search, Share, CirclePlus, Delete } from '@element-plus/icons-vue';
+import test from './dialog-insert.vue';
 
 const baseURL = "/api";
 const students = ref([]);
@@ -95,6 +103,8 @@ const total = ref(0); // 页面总行数
 const currentpage = ref(1); // 当前所在页
 const pagesize = ref(10); // 每页显示多少行
 const inputStr = ref('');
+
+
 
 // 自动加载数据
 onMounted(() => {
