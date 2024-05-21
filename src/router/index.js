@@ -3,7 +3,8 @@ import Login from '@/components/login-page.vue'
 import OK from '@/components/ok-page.vue'
 import adminPage from '@/components/admin-page.vue'
 import NotFound from '@/components/notfound-page.vue'
-
+import GradePage from '@/components/GradePage.vue'
+import StudentRules from "@/components/StudentRules.vue"
 let routes = [{
   path: '/ok',
   component: adminPage,
@@ -13,8 +14,21 @@ let routes = [{
     meta: {
       title: '学生管理'
     }
-  }, ]
-
+  }, 
+  {
+    path: '/ok/grade',
+    component: GradePage,
+    meta: {
+      title: '成绩管理'
+    }
+  },
+  {
+    path: '/ok/Rules',
+    component: StudentRules,
+    meta: {
+      title: '评分细则'
+    }
+  }]
 }, {
   path: '/',
   component: Login,

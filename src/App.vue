@@ -18,6 +18,9 @@ export default {
   -moz-osx-font-smoothing: grayscale; 
   height: 100%;
 }
+
+
+
 </style>
 
 <script>
