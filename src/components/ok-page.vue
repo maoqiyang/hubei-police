@@ -144,8 +144,6 @@ import axios from 'axios';
 import { ElMessage, ElButton, ElTable, ElForm, ElInput, ElRow, ElCol, ElPagination, ElUpload, ElButtonGroup, ElMessageBox } from 'element-plus';
 import { EditPen, Search, Share, CirclePlus, Delete } from '@element-plus/icons-vue';
 
-const imageUrl = ref('');
-
 const baseURL = "/api";
 const students = ref([]);
 const pageStudents = ref([]); // 分页后当前页的学生
@@ -157,7 +155,6 @@ const dialogVisible = ref(false);
 const dialogTitle = ref('');
 const isView = ref(false);
 const isEdit = ref(false); //标识是否查看还是修改
-
 const selectStudents = ref([]);
 
 const studentForm = reactive({
@@ -173,6 +170,7 @@ const studentForm = reactive({
   "image": '',
   "imageUrl": '',
 });
+
 const ruleSNo = (rule, value, callback) => {
   if (isEdit.value) { callback(); }
   axios.post(baseURL + "id/check/", { id: value })

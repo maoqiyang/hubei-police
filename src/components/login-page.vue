@@ -32,9 +32,9 @@ import { useStore } from 'vuex'
 const store = useStore();
 // const router = useRouter(); // 正确获取router实例
 const form = ref({
-  password1: '123',
-  password2: '456',
-  password3: '789'
+  password1: 'password1',
+  password2: 'password2',
+  password3: 'password3'
 })
 
 const handleLogin = async () => {
