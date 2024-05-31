@@ -24,36 +24,32 @@
   </el-row>
   <el-row>
     <el-table
-      :data="StudentsGradeList"
+      :data="filteredScores"
       style="width: 100%"
       border
       :cell-style="{ textAlign: 'center' }"
       :header-cell-style="{ 'text-align': 'center' }"
     >
-      <el-table-column type="selection" width="auto" />
-      <el-table-column type="index" label="序号" width="auto">
-      </el-table-column>
-      <el-table-column property="stuId" label="学号" width="auto" />
-      <el-table-column property="Name" label="姓名" width="auto" />
-      <el-table-column property="InternalAffair" label="内务" width="auto" />
-      <el-table-column
-        property="DailyRegime"
-        label="一日生活制度"
-        width="auto"
-      />
-      <el-table-column
-        property="PolicAppearance"
-        label="警容风纪"
-        width="auto"
-      />
-      <el-table-column property="FormationDis" label="队列纪律" width="auto" />
-      <el-table-column property="classDiS" label="教室纪律" width="auto" />
-      <el-table-column property="Sum" label="总分" width="auto" />
+      <el-table-column property="student_id" label="学号" width="auto" />
+      <el-table-column property="name" label="姓名" width="auto" />
+      <el-table-column property="department" label="区队" width="auto" />
+      <el-table-column property="dormitory_score" label="内务" width="auto" />
+      <el-table-column property="daily_life_score" label="一日生活制度" width="auto" />
+      <el-table-column property="discipline_score" label="警容风纪" width="auto" />
+      <el-table-column property="formation_score" label="队列规范" width="auto" />
+      <el-table-column property="classroom_score" label="教室纪律" width="auto" />
+      <el-table-column property="dorm_check_score" label="查寝" width="auto" />
+      <el-table-column property="total_score" label="总分" width="auto" />
       <el-table-column label="操作" width="auto">
         <el-button type="primary">调整</el-button>
       </el-table-column>
+      
     </el-table>
+
   </el-row>
+
+
+
   <!-- 弹出框 -->
   <el-dialog v-model="deductionListDialog" title="录入成绩" width="600">
     <!-- 个人信息 -->
@@ -70,7 +66,6 @@
         张山
       </el-descriptions-item></el-descriptions
     >
-
     <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
       <el-tab-pane label="内务" name="InternalAffair">
         <el-checkbox-group v-model="checkList">
@@ -90,8 +85,13 @@
       >
       <el-tab-pane label="队列纪律" name="FormationDis">队列纪律</el-tab-pane>
       <el-tab-pane label="教室纪律" name="classDiS">教室纪律</el-tab-pane>
+      <el-tab-pane label="查寝" name="sleep">查寝</el-tab-pane>
     </el-tabs>
-    <template #footer>
+
+  
+    
+  
+  <template #footer>
       <div class="dialog-footer">
         <el-button type="primary" @click="deductionListDialog = false">
           下一个
@@ -102,8 +102,18 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
-const SelClassValue = ref("");
+/* eslint-disable */
+import { ref, computed, onMounted } from "vue";
+
+import axios from "axios";
+
+const pageStudents = ref([]); // 分页后当前页的学生
+const total = ref(0); // 页面总行数
+const currentpage = ref(1); // 当前所在页
+const pagesize = ref(5); // 每页显示多少行
+
+const SelClassValue = ref("信安二区");
+
 const options = [
   {
     value: "网安一区",
@@ -113,36 +123,46 @@ const options = [
     value: "网安二区",
     label: "网安二区",
   },
+  {
+    value: "网安三区",
+    label: "网安三区",
+  },
+  {
+    value: "信安一区",
+    label: "信安一区",
+  },
+  {
+    value: "信安二区",
+    label: "信安二区",
+  },
 ];
 let selectChange = () => {
   console.log(SelClassValue.value);
 };
 
+// 根据区队过滤数据
+const filteredScores = computed(() => {
+  if (SelClassValue.value) {
+    return score.value.filter(item => item.department === SelClassValue.value);
+  }
+  return score.value; // 如果没有选择，默认显示所有数据
+});
+
 // 表单
-let StudentsGradeList = reactive([
-  {
-    stuId: 20230371000,
-    Name: "张山",
-    address: "武汉市洪山区",
-    InternalAffair: 100,
-    DailyRegime: 100,
-    PolicAppearance: 100,
-    FormationDis: 100,
-    classDiS: 100,
-    Sum: 100,
-  },
-  {
-    stuId: 20230371001,
-    Name: "里斯",
-    address: "武汉市硚口区",
-    InternalAffair: 100,
-    DailyRegime: 100,
-    PolicAppearance: 100,
-    FormationDis: 100,
-    classDiS: 100,
-    Sum: 100,
-  },
-]);
+const score = ref([]);
+const getscore = async () => {
+  try {
+    const response = await axios.get('/api/score/');
+    score.value = response.data.data;
+    console.log(score);
+  } catch (error) {
+    console.error('Error fetching score:', error);
+  }
+};
+onMounted(getscore);
+
+
+
 
 // 弹出框
 let deductionListDialog = ref(false);
@@ -156,7 +176,13 @@ const handleClick = (tab, event) => {
 let checkList = ref(["Value selected and disabled", "Value A"]);
 </script>
 
+
+
+
+
+
 <style scoped>
+
 .el-descriptions {
   margin: 20px;
 }
@@ -170,4 +196,5 @@ let checkList = ref(["Value selected and disabled", "Value A"]);
   font-size: 32px;
   font-weight: 600;
 }
+
 </style>

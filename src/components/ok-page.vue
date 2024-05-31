@@ -34,7 +34,7 @@
     <el-table-column prop="id" label="ID" width="130px"> </el-table-column>
     <el-table-column prop="name" label="姓名" width="90px"> </el-table-column>
     <el-table-column prop="gender" label="性别" width="50px"> </el-table-column>
-    <el-table-column prop="area" label="地区" width="100px"></el-table-column>
+    <el-table-column prop="area" label="区队" width="100px"></el-table-column>
     <el-table-column prop="ethnicity" label="民族" width="70px"></el-table-column>
     <el-table-column prop="political_affiliation" label="政治面貌" width="90px"></el-table-column>
     <el-table-column prop="department" label="部门" width="140px"> </el-table-column>
@@ -149,7 +149,7 @@ const students = ref([]);
 const pageStudents = ref([]); // 分页后当前页的学生
 const total = ref(0); // 页面总行数
 const currentpage = ref(1); // 当前所在页
-const pagesize = ref(10); // 每页显示多少行
+const pagesize = ref(5); // 每页显示多少行
 const inputStr = ref('');
 const dialogVisible = ref(false);
 const dialogTitle = ref('');
