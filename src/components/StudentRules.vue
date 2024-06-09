@@ -66,7 +66,7 @@ const sleep = ref([]);
 
 const fetchPenaltyRules = ()=>{
   store.dispatch("app/getRules").then([dailyRegimeRules.value,policeAppearanceRules.value,attire.value,queue.value,classDiS.value,sleep.value] = store.state.app.RulesList)
-  
+  // console.log(dailyRegimeRules.value);
 } 
 
 

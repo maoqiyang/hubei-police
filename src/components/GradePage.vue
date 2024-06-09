@@ -31,7 +31,9 @@
       border
       :cell-style="{ textAlign: 'center' }"
       :header-cell-style="{ 'text-align': 'center' }"
+      :default-sort="{ prop: 'total_score', order: 'descending' }"
     >
+      <el-table-column type="index" label="名次" width="auto" />
       <el-table-column property="student_id" label="学号" width="auto" />
       <el-table-column property="name" label="姓名" width="auto" />
       <el-table-column property="department" label="区队" width="auto" />
@@ -41,9 +43,34 @@
       <el-table-column property="formation_score" label="队列规范" width="auto" />
       <el-table-column property="classroom_score" label="教室纪律" width="auto" />
       <el-table-column property="dorm_check_score" label="查寝" width="auto" />
-      <el-table-column property="total_score" label="总分" width="auto" />
+      <el-table-column property="total_score" sortable label="总分" width="auto" />
+      <el-table-column property="list" label="扣分项" width="auto" >
+      <template #default="scoped" >
+      <span v-if="scoped.row.list == null || scoped.row.list.length==0">
+        暂无扣分
+       </span>
+       <span v-else>
+        <el-popover placement="right" :width="350" trigger="hover" >
+      <template #reference >
+        <span style="cursor:pointer" >详情</span>
+      </template>
+      <el-table :data="scoped.row.list" style="width: 100%"
+      border
+      :cell-style="{ textAlign: 'center' }"
+      :header-cell-style="{ 'text-align': 'center' }">
+        <el-table-column width="auto" property="reason" label="原因" />
+        <el-table-column width="auto" property="score" label="分值" />
+      </el-table>
+    </el-popover>
+       </span>
+       
+      </template>
+
+      </el-table-column>
       <el-table-column label="操作" width="auto">
-        <el-button type="primary">调整</el-button>
+      <template #default="scoped">
+              <el-button type="primary" @click="changeGru(scoped.$index,scoped.row)">调整</el-button>
+      </template>
       </el-table-column>
       
     </el-table>
@@ -60,12 +87,10 @@
       style="text-align: center; margin-top: 20px"
       layout="total,sizes,jumper, prev, pager, next"
       @current-change="initDate"
-      :page-sizes="[5, 10]"
+      :page-sizes="[5, 10,50]"
       @size-change="handleSizeChange"
     /></el-col>
   </el-row>
-
-
 
   <!-- 弹出框 -->
   <el-dialog v-model="deductionListDialog" title="录入成绩" width="800" @open="DialogOpen">
@@ -75,17 +100,18 @@
         <template #label>
           <div class="cell-item">学号</div>
         </template>
-        {{ person.info.student_id }} </el-descriptions-item
+        {{ filteredScores[i].student_id}} </el-descriptions-item
       ><el-descriptions-item>
         <template #label>
           <div class="cell-item">姓名</div>
         </template>
-        {{ person.info.name }}
+        {{filteredScores[i].name}}
       </el-descriptions-item></el-descriptions
     >
     <el-tabs v-model="activeName" class="demo-tabs">
       <el-tab-pane label="内务" name="dailyRegimeRules">
         <el-table
+        
           :cell-style="{ textAlign: 'center' }"
           :header-cell-style="{ 'text-align': 'center' }"
           :data="dailyRegimeRules"
@@ -196,12 +222,17 @@
 
   <template #footer>
       <div class="dialog-footer">
-        <el-button v-if="btnIsNext" type="primary" @click="nextFn">
+      <template v-if="btnisAdjust">
+        <el-button  type="primary" @click="pushAdjustDataFn">提交</el-button>
+      </template>
+        <template v-else>
+          <el-button v-if="btnIsNext" type="primary" @click="nextFn">
           下一个
         </el-button>
         <el-button v-else type="primary" @click="finishFn">
           提交
         </el-button>
+        </template>
       </div>
     </template>
   </el-dialog>
@@ -214,7 +245,7 @@ import axios from "axios";
 import { useStore } from "vuex";
 const store = useStore()
 const SelClassValue = ref("信安二区");
-
+defineProps(['Dtable'])
 const options = [
   {
     value: "网安一区",
@@ -260,8 +291,10 @@ const getscore = async (val=1) => {
     console.error('Error fetching score:', error);
   }
 };
-onMounted(getscore);
-// console.log('成绩信息',score.value);
+
+onMounted(()=>{
+  getscore()
+});
 
 // 分页功能
 let ShowScoreList = ref([])
@@ -297,7 +330,11 @@ let DialogOpen = ()=>{ //弹出框打开时的回调
   changeRulesDate()       // 弹出框打开时去vuex把细则数据拿过来
 
  // 给 被打分人 赋初值
-  person.info = filteredScores.value[i.value]
+  for (let j = 0; j < filteredScores.value.length; j++) {
+    if(filteredScores.value[j].list == null|| filteredScores.value[j].list.length == 0 ) filteredScores.value[j].list = []
+    else break
+    
+  }
 }
 const activeName = ref("dailyRegimeRules");
 const newRulesDate = ref([]);
@@ -308,19 +345,21 @@ const queue = ref([]);
 const classDiS = ref([]);
 const sleep = ref([]);
  
+
 // 打对勾函数
 let cellClick = (row, column) => {
-  const columnIndex = newRulesDate.value.findIndex((item) => item == row);
+  // console.log(row,column,'randc');
+  // const columnIndex = newRulesDate.value.findIndex((item) => item == row);
   if (column.property === "reason") {
     return;
   }
   if (row[column.property] === "√") {
     row[column.property] = "";
-    person.list.push(row)
+    filteredScores.value[i.value].list.push(row)
 
   } else {
     row[column.property] = "√";
-    person.list.push(row)
+    filteredScores.value[i.value].list.push(row)
     
   }
 };
@@ -342,23 +381,37 @@ let setdata = ()=>{
 
 //打分功能
 let btnIsNext = ref(true);
-let person = reactive({
-  info:{},
-  list:[]
-})  // 被打分人的信息
 let i = ref(0);
 let nextFn = ()=>{
   // console.log('ii',i.value);
   // 计算上一个人的分数
+  computegru()
+// console.log('count',counter);
+  i.value++
+  // 拿下个人的信息 准备给下个人打分
+  if(i.value<filteredScores.value.length){
+    changeRulesDate()
+  }else{
+    i.value=0
+    btnIsNext.value = false;
+  }
+}
+let finishFn = ()=>{
+  console.log('发请求 提交filteredScores');
+  // getscore()   // 重新请求数据 更新成绩信息 (请求写好后解锁)
+  deductionListDialog.value = false
+}
+// 分数计算函数
+let computegru = ()=>{
   let obj = {};
-  person.list = person.list.reduce((cur, next) => {
+  filteredScores.value[i.value].list = filteredScores.value[i.value].list.reduce((cur, next) => {
     obj[next.rule_id] ? '' : (obj[next.rule_id] = true && cur.push(next));
     return cur;
   }, []);
 let counter = reactive({
   a:0,b:0,c:0,d:0,e:0,f:0
 })
-person.list.forEach(item=>{
+filteredScores.value[i.value].list.forEach(item=>{
   for(let key in item){
     if(item.hasOwnProperty(key) && item[key]== ''){delete item[key]}
     if(item.hasOwnProperty(key) && key.startsWith('timer.')){
@@ -390,23 +443,28 @@ person.list.forEach(item=>{
   }
 })
 filteredScores.value[i.value].total_score = 100 - counter.a - counter.b-counter.c-counter.d-counter.e-counter.f
-// console.log('pl',person);
-// console.log('count',counter);
-i.value++
+// console.log('f',filteredScores.value[i.value]);
+}
 
-  // 拿下个人的信息 准备给下个人打分
-  if(i.value<filteredScores.value.length){
-    person.info = filteredScores.value[i.value]
-    changeRulesDate()
-  }else{
-    i.value=0
-    btnIsNext.value = false;
-  }
+// 调整分数功能
+let btnisAdjust = ref(false)  //提交按钮开关
+let changeGru = (personIndex,personInfo)=>{
+  // console.log(personInfo);
+  i.value = personIndex            //把 i 指向要调整的人
+  personInfo.list = []              //把扣分信息清空 准备重新打分
+  btnisAdjust.value = true;          //按钮换成提交  准备提交调整完的信息
+  deductionListDialog.value = true
 }
-let finishFn = ()=>{
-  console.log('发请求 提交filteredScores');
-  deductionListDialog = false
+// 提交调整后的信息
+let pushAdjustDataFn=()=>{
+  computegru() // 计算被调整的人的分数
+  console.log('被调整人的信息',filteredScores.value[i.value]);
+  console.log('发请求 提交filteredScores.value[i.value]');
+  // getscore()   // 重新请求数据 更新成绩信息 (请求写好后解锁)
+  deductionListDialog.value = false
+  btnisAdjust.value = false
 }
+ 
 </script>
 
 

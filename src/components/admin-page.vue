@@ -1,14 +1,14 @@
 <template>
     <el-container class="box">
-      <el-header style="height: 80px">综合考评评价体系</el-header>
+      <el-header ><p>综合考评评价体系</p></el-header>
       <el-container>
-        <el-aside width="200px"><Fmenu></Fmenu></el-aside>
+        <el-aside width="200px"><FMenu ></FMenu></el-aside>
         <el-container>
           <el-main>
             <!-- 面包屑导航 -->
             <el-breadcrumb separator-class="el-icon-arrow-right">
               <el-breadcrumb-item>首页</el-breadcrumb-item>
-              <el-breadcrumb-item>学生信息</el-breadcrumb-item>
+              <el-breadcrumb-item>{{a}}</el-breadcrumb-item>
             </el-breadcrumb>
             <routerView></routerView>
           </el-main>
@@ -20,9 +20,21 @@
     </el-container>
   </template>
   
-  <script setup>
-  import Fmenu from "@/layout/F-menu.vue";
-  </script>
+
+
+
+ <script setup>
+  /* eslint-disable */
+  import FMenu from '../layout/F-menu.vue';
+  import {computed, ref} from 'vue'
+  import {useRoute} from 'vue-router'
+  const Route = useRoute()
+  let a = computed(()=>{
+    return Route.name || "学生管理"
+  })
+  
+ </script>
+
   
   <style scoped>
   .box {
@@ -34,10 +46,13 @@
     background-color: #003366;  /* 深蓝色，常见于警察徽章 */
     color: #fff;               /* 白色文字提高可读性 */
     text-align: left;
-    line-height: 80px;
     font-size: 32px;
     font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
+  
   .el-container {
     margin: 0px;
     padding: 0px;

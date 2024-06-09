@@ -6,6 +6,7 @@ import NotFound from '@/components/notfound-page.vue'
 import GradePage from '@/components/GradePage.vue'
 import StudentRules from "@/components/StudentRules.vue"
 let routes = [{
+  name:'学生管理',
   path: '/ok',
   component: adminPage,
   children: [{
@@ -16,6 +17,7 @@ let routes = [{
     }
   }, 
   {
+    name:'成绩管理',
     path: '/ok/grade',
     component: GradePage,
     meta: {
@@ -23,22 +25,23 @@ let routes = [{
     }
   },
   {
+      name:'评分细则',
     path: '/ok/Rules',
     component: StudentRules,
     meta: {
       title: '评分细则'
     }
-  }]
+  }, {
+  path: '/:pathMatch(.*)*',
+  name: 'NotFound',
+  component: NotFound
+}]
 }, {
   path: '/',
   component: Login,
   meta: {
     title: '登录页'
   }
-}, {
-  path: '/:pathMatch(.*)*',
-  name: 'NotFound',
-  component: NotFound
 }];
 const router = createRouter({
   history: createWebHistory(),
