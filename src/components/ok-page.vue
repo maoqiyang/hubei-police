@@ -30,18 +30,18 @@
   <el-table :data="pageStudents" style="width: 100%" border :cell-style="{ textAlign: 'center' }"
     :header-cell-style="{ 'text-align': 'center' }" @selection-change="handleSelectionChange">
 
-    <el-table-column type="selection" width=60px />
-    <el-table-column prop="id" label="ID" width="130px"> </el-table-column>
-    <el-table-column prop="name" label="姓名" width="90px"> </el-table-column>
-    <el-table-column prop="gender" label="性别" width="50px"> </el-table-column>
-    <el-table-column prop="area" label="区队" width="100px"></el-table-column>
-    <el-table-column prop="ethnicity" label="民族" width="70px"></el-table-column>
-    <el-table-column prop="political_affiliation" label="政治面貌" width="90px"></el-table-column>
-    <el-table-column prop="department" label="部门" width="140px"> </el-table-column>
-    <el-table-column prop="address" label="地址" width="160px"> </el-table-column>
-    <el-table-column prop="phone_number" label="电话号码" width="130px"> </el-table-column>
+    <el-table-column type="selection" width="auto" />
+    <el-table-column prop="id" label="ID" width="auto" > </el-table-column>
+    <el-table-column prop="name" label="姓名" width="auto" > </el-table-column>
+    <el-table-column prop="gender" label="性别" width="70px" > </el-table-column>
+    <el-table-column prop="area" label="区队" width="auto" ></el-table-column>
+    <el-table-column prop="ethnicity" label="民族" width="auto" ></el-table-column>
+    <el-table-column prop="political_affiliation" label="政治面貌" width="auto" ></el-table-column>
+    <el-table-column prop="department" label="部门" width="auto" > </el-table-column>
+    <el-table-column prop="address" label="地址" width="auto" > </el-table-column>
+    <el-table-column prop="phone_number" label="电话号码" width="auto" > </el-table-column>
 
-    <el-table-column label="操作" width="180px">
+    <el-table-column label="操作" width="180px" >
       <template #default="{ row }">
         <el-button type="primary" icon="More" circle @click="viewStudent(row)"></el-button>
         <el-button type="success" icon="Edit" circle @click="updateStudent(row)"></el-button>

@@ -136,6 +136,4 @@ const router = useRouter();
 let path = ref(router.currentRoute.value.fullPath);
 </script>
 
-
-
 <style scoped></style>

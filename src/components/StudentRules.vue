@@ -51,11 +51,7 @@ import { ref,onMounted } from "vue";
 
 import { useStore } from "vuex";  //引入vuex
 const store = useStore()          //实例化store
-
 const activeName = ref("DailyRegime");
-
-
-
 const dailyRegimeRules = ref([]);
 const policeAppearanceRules = ref([]);
 const attire = ref([]);
@@ -64,11 +60,11 @@ const classDiS = ref([]);
 const sleep = ref([]);
 
 
-const fetchPenaltyRules = ()=>{
-  store.dispatch("app/getRules").then([dailyRegimeRules.value,policeAppearanceRules.value,attire.value,queue.value,classDiS.value,sleep.value] = store.state.app.RulesList)
-  // console.log(dailyRegimeRules.value);
-} 
-
+const fetchPenaltyRules = async () => {
+  await store.dispatch("app/getRules");
+  [dailyRegimeRules.value, policeAppearanceRules.value, attire.value, queue.value, classDiS.value, sleep.value] = store.state.app.RulesList;
+};
+//这样处理之后，即便是在应用刚加载和 Vuex 状态可能还没完全更新时，通过确保动作完成来防止出现未初始化或过时数据的问题，从而提高应用的稳定性和响应性。
 
 onMounted(fetchPenaltyRules);
 

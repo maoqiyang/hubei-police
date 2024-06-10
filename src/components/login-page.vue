@@ -15,7 +15,6 @@
       <input type="password" v-model="form.password2" placeholder="Password 2" required>
       <input type="password" v-model="form.password3" placeholder="Password 3" required>
       <button type="submit">Login</button>
-
     </form>
   </div>
 
@@ -40,8 +39,7 @@ const form = ref({
 const handleLogin = async () => {
   // 移除 formRef 依赖，假设不需要前端验证或已在表单元素内部进行
   try {
-    const response = await login(form.value); // 使用 try-catch 结构处理异步请求
-
+    await login(form.value); // 使用 try-catch 结构处理异步请求
     store.dispatch("app/login",form.value)
     // router.push('/ok') // 登录成功后跳转到首页
 
@@ -53,6 +51,4 @@ const handleLogin = async () => {
 }
 </script>
 <style src="@/assets/styles/LoginStyles.css">
-
-
 </style>
