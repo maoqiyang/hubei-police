@@ -1,6 +1,6 @@
 <template>
     <el-container class="box">
-      <el-header ><p>综合考评评价体系</p></el-header>
+      <el-header ><p>综合素质评价体系</p></el-header>
       <el-container>
         <el-aside width="200px"><FMenu ></FMenu></el-aside>
         <el-container>

@@ -31,10 +31,12 @@ import { useStore } from 'vuex'
 const store = useStore();
 // const router = useRouter(); // 正确获取router实例
 const form = ref({
-  password1: 'password1',
-  password2: 'password2',
-  password3: 'password3'
+  password1: '',
+  password2: '',
+  password3: ''
 })
+
+//password1,password2,password3
 
 const handleLogin = async () => {
   // 移除 formRef 依赖，假设不需要前端验证或已在表单元素内部进行

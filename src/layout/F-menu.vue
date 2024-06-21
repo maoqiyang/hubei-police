@@ -6,6 +6,7 @@
       </el-icon>
       <span>学生管理</span>
     </el-menu-item>
+
     <el-sub-menu index="1">
       <template #title>
         <el-icon>
@@ -51,6 +52,15 @@
       </el-icon>
       <span>评分细则</span>
     </el-menu-item>
+      </el-menu-item-group>
+      <el-menu-item-group title="警务技能">
+      </el-menu-item-group>
+      <el-menu-item-group title="奖惩情况">
+      </el-menu-item-group>
+      <el-menu-item-group title="队列指挥">
+      </el-menu-item-group>
+      <el-menu-item-group title="管理素养">
+
       </el-menu-item-group>
     
     </el-sub-menu>
@@ -116,13 +126,7 @@
         <el-menu-item index="5-1">item one</el-menu-item>
         <el-menu-item index="5-2">item two</el-menu-item>
       </el-menu-item-group>
-      <el-menu-item-group title="Group Two">
-        <el-menu-item index="5-3">item three</el-menu-item>
-      </el-menu-item-group>
-      <el-sub-menu index="5-4">
-        <template #title>item four</template>
-        <el-menu-item index="5-4-1">item one</el-menu-item>
-      </el-sub-menu>
+
     </el-sub-menu>
  
   </el-menu>
